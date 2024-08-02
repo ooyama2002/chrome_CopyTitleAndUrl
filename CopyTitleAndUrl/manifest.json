@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "CopyTitleAndUrl",
+    "version": "1.0.0",
+    "description": "Copy the title and url in markdown, pukiwiki, html format.",
+    "homepage_url": "https://github.com/ooyama2002/chrome_CopyTitleAndUrl/",
+    "icons": {
+        "32": "icon-32.png",
+        "48": "icon-48.png",
+        "64": "icon-64.png",
+        "128": "icon-128.png"
+    },
+    "permissions": [
+        "activeTab",
+        "clipboardWrite"
+    ],
+    "action": {
+        "default_icon": "icon-32.png",
+        "default_title": "CopyTitleAndUrl",
+        "default_popup": "popup.html"
+    }
+}
