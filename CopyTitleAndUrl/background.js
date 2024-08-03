@@ -2,24 +2,28 @@
     chrome.runtime.onInstalled.addListener((details) => {
 
         chrome.contextMenus.create({
+            type: "normal",
             id: "normal",
             title: "normal",
             contexts: ["all"],
         });
 
         chrome.contextMenus.create({
+            type: "normal",
             id: "markdown",
             title: "markdown",
             contexts: ["all"],
         });
 
         chrome.contextMenus.create({
+            type: "normal",
             id: "pukiwiki",
             title: "pukiwiki",
             contexts: ["all"],
         });
 
         chrome.contextMenus.create({
+            type: "normal",
             id: "html",
             title: "html",
             contexts: ["all"],
@@ -28,28 +32,23 @@
     });
 
     chrome.contextMenus.onClicked.addListener((info, tab) => {
+        let buff = "";
+
+        if (info.menuItemId == "normal") {
+            buff = tab.title + "\r\n" + tab.url;
+        } else if (info.menuItemId == "markdown") {
+            buff = "[" + tab.title + "](" + tab.url + ")";
+        } else if (info.menuItemId == "pukiwiki") {
+            buff = "[[" + tab.title + ":" + tab.url + "]]";
+        } else if (info.menuItemId == "html") {
+            buff = "<a href=\"" + tab.url + "\">" + tab.title + "</a>";
+        }
+
         chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            args: [info.menuItemId],
+            args: [buff],
             function: (param) => {
-                let buff = "";
-
-                if (param == "normal") {
-                    buff = document.title + "\r\n" + location.href;
-                } else if (param == "markdown") {
-                    buff = "[" + document.title + "](" + location.href + ")";
-                } else if (param == "pukiwiki") {
-                    buff = "[[" + document.title + ":" + location.href + "]]";
-                } else if (param == "html") {
-                    buff = "<a href=\"" + location.href + "\">" + document.title + "</a>";
-                }
-
-                let element = document.createElement("textarea");
-                element.value = buff;
-                document.body.append(element);
-                element.select();
-                document.execCommand("copy");
-                element.remove();
+                navigator.clipboard.writeText(param);
             },
         });
     });
