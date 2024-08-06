@@ -1,5 +1,5 @@
 # CopyTitleAndUrl
-`CopyTitleAndUrl`はchrome用のアドオンです。  
+`CopyTitleAndUrl`はchrome/opera用のアドオンです。  
 アクティブなタブのタイトルとURLをmarkdown、pukiwiki、html形式でクリップボードにコピーします。
 
 ## 使い方
