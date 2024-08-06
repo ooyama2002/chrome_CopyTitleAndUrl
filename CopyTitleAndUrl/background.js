@@ -13,6 +13,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
 
     if (tab.url?.startsWith("chrome://")) return undefined;
+    if (tab.url?.startsWith("opera://")) return undefined;
 
     chrome.tabs.sendMessage(tab.id, buff);
 });
