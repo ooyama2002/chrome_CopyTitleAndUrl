@@ -12,9 +12,31 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         buff = "<a href=\"" + tab.url + "\">" + tab.title + "</a>";
     }
 
-    if (tab.url?.startsWith("chrome://")) return undefined;
+    // コンテンツスクリプトにメッセージを送信してコピー
+    chrome.tabs.sendMessage(tab.id, buff).catch(() => {
+        // エラー時はexecuteScriptでコピーしてみる
+        chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            injectImmediately: true,
+            args: [buff],
+            function: (param) => {
+                navigator.clipboard.writeText(param);
+            },
+        }).catch((error) => {
+            // それでもエラーならnotificationを表示
+            let options = {
+                type: "basic",
+                title: "Copy Title And Url",
+                message: "Copy Error.\n" + error.message,
+                iconUrl: "icon-128.png",
+                buttons: [
+                    { title: 'OK' },
+                ]
+            };
+            chrome.notifications.create(options);
+        });
+    });
 
-    chrome.tabs.sendMessage(tab.id, buff);
 });
 
 // コンテキストメニューの登録
