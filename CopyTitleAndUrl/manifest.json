@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "CopyTitleAndUrl",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "Copy the title and url in markdown, pukiwiki, html format.",
     "homepage_url": "https://github.com/ooyama2002/chrome_CopyTitleAndUrl/",
     "icons": {
@@ -15,6 +15,17 @@
         "scripting",
         "clipboardWrite",
         "contextMenus"
+    ],
+    "content_scripts": [
+        {
+            "run_at": "document_start",
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content_script.js"
+            ]
+        }
     ],
     "background": {
         "service_worker": "background.js"
